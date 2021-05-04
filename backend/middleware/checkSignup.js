@@ -4,6 +4,6 @@ module.exports = (req, res, next) => {
   if (passwordReg.test(req.body.password)) {
     next();
   } else {
-    res.status(400).json({ message: "Le mot de passe doit contenir huit caractères au minimum, au moins une lettre et un chiffre" });
+    res.status(400).statusText({ message: "Le mot de passe doit contenir huit caractères au minimum, au moins une lettre et un chiffre" });
   }
 };

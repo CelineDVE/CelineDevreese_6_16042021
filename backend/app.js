@@ -7,7 +7,10 @@ const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 mongoose
-  .connect("mongodb+srv://celineDVE:ALLY59MCBEAl@cluster0.homy4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .connect(
+    "mongodb+srv://celineDVE:9JQHrXgWDNSO251t@cluster0.homy4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
+  )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
