@@ -2,19 +2,31 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const helmet = require('helmet');
+require('dotenv').config();
+const xss = require('xss-clean');
+const rateLimit = require("express-rate-limit");
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 mongoose
-  .connect(
-    "mongodb+srv://celineDVE:9JQHrXgWDNSO251t@cluster0.homy4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  .connect(process.env.MONGODB_CONNECT,
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 const app = express();
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limite chaque IP à 100 requêtes
+});
+
+app.use(limiter);
+
+app.use(helmet()); //Sécuriser les headers
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -26,6 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+app.use(xss());
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 

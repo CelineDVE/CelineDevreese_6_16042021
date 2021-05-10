@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { db } = require('../models/user');
 
 const User = require('../models/user');
 
@@ -51,3 +52,5 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }))
 };
+
+
