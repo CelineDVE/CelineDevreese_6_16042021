@@ -41,6 +41,7 @@ app.use(bodyParser.json());
 app.use(xss());
 
 app.use("/images", express.static(path.join(__dirname, "images")));
+app.use(express.static("images"));
 
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
