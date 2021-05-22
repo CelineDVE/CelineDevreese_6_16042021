@@ -1,15 +1,17 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { db } = require('../models/user');
+const cryptojs = require('crypto-js');
 
 const User = require('../models/user');
 
+
 exports.signup = (req, res, next) => {
+    const crytedEmail = cryptojs.HmacSHA256(req.body.email, process.env.KEY_EMAIL).toString();    
     bcrypt
         .hash(req.body.password, 10)
         .then(hash => {
             const user = new User ({
-                email: req.body.email,
+                email: crytedEmail,
                 password: hash
             });
             user
@@ -21,8 +23,9 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    const crytedEmail = cryptojs.HmacSHA256(req.body.email, process.env.KEY_EMAIL).toString();
     User
-        .findOne({ email: req.body.email })
+        .findOne({ email: crytedEmail })
         .then(user => {
             if (!user) {
                 return res
