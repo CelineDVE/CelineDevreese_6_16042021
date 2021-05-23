@@ -21,7 +21,7 @@ const app = express();
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 500, // limite chaque IP à 100 requêtes
+  max: 100, // limite chaque IP à 100 requêtes
 });
 
 app.use(limiter);
